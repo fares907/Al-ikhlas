@@ -1,0 +1,7 @@
+# إعدادات أدوات التطوير
+.claude/
+
+# ملفات نظام التشغيل
+Thumbs.db
+desktop.ini
+.DS_Store
