@@ -32,7 +32,7 @@
     root.setAttribute('data-theme', t);
     // لون شريط المتصفح على الموبايل يمشي مع الوضع
     var meta = $('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', t === 'dark' ? '#15110D' : '#F5F2EA');
+    if (meta) meta.setAttribute('content', t === 'dark' ? '#060D1A' : '#F3F5F8');
   }
 
   applyTheme(currentTheme());

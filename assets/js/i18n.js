@@ -13,7 +13,7 @@ window.I18N = {
     'a11y.menu': 'القائمة',
 
     'brand.name': 'الإخلاص',
-    'brand.sub': 'لتجارة مواد البناء',
+    'brand.sub': 'AL IKHLAS · مواد البناء',
 
     'nav.services': 'خدماتنا',
     'nav.products': 'المنتجات',
@@ -142,7 +142,18 @@ window.I18N = {
     'mq.6': 'توريد بالكمية',
     'mq.7': 'التزام بالمواعيد',
     'mq.8': 'أسعار السوق',
-    'a11y.top': 'ارجع لأول الصفحة'
+    'a11y.top': 'ارجع لأول الصفحة',
+    'tag.mm8': '8 مم',
+    'tag.mm10': '10 مم',
+    'tag.mm12': '12 مم',
+    'tag.mm16': '16 مم',
+    'tag.mm18': '18 مم',
+    'why.lead': 'في البناء، تأخيرة يوم في التوريد بتوقف ورشة كاملة. عشان كده شغلنا مبني على حاجة واحدة: <strong style="color:var(--copper-3)">اللي نقوله، نعمله</strong>.',
+    'about.p1': 'شركة مصرية بتشتغل في توريد الأسمنت وحديد التسليح لقرى ومراكز <strong>مركز كفر شكر بمحافظة القليوبية</strong>، ومقر البيع في <strong>كفر علي شرف الدين</strong>.',
+    'about.p2': 'بدأنا صغيّرين، وكبرنا بترشيح العملاء لبعض. بنتعامل مع المقاول والمالك وصاحب الورشة بنفس الجدية — سعر واضح من غير مفاجآت، وميعاد بنلتزم بيه.',
+    'a11y.brand': 'الإخلاص لتجارة مواد البناء',
+    'a11y.logo': 'شعار شركة الإخلاص',
+    'a11y.wa': 'تواصل على واتساب'
   },
 
   en: {
@@ -154,7 +165,7 @@ window.I18N = {
     'a11y.menu': 'Menu',
 
     'brand.name': 'AL IKHLAS',
-    'brand.sub': 'Building Materials',
+    'brand.sub': 'الإخلاص · Building Materials',
 
     'nav.services': 'Services',
     'nav.products': 'Products',
@@ -283,6 +294,17 @@ window.I18N = {
     'mq.6': 'Supply by quantity',
     'mq.7': 'On-time delivery',
     'mq.8': 'Market prices',
-    'a11y.top': 'Back to top'
+    'a11y.top': 'Back to top',
+    'tag.mm8': '8 mm',
+    'tag.mm10': '10 mm',
+    'tag.mm12': '12 mm',
+    'tag.mm16': '16 mm',
+    'tag.mm18': '18 mm',
+    'why.lead': 'In construction, a one-day supply delay stops a whole crew. That is why our work is built on one thing: <strong style="color:var(--copper-3)">we do what we say</strong>.',
+    'about.p1': 'An Egyptian company supplying cement and rebar to the villages and towns of <strong>Kafr Shukr, Qalyubia</strong>, with our sales yard in <strong>Kafr Ali Sharaf El-Din</strong>.',
+    'about.p2': 'We started small and grew through customers recommending us to each other. We treat contractors, owners and workshop owners with the same seriousness — clear prices with no surprises, and dates we keep.',
+    'a11y.brand': 'Al Ikhlas Building Materials Trading',
+    'a11y.logo': 'Al Ikhlas logo',
+    'a11y.wa': 'Chat on WhatsApp'
   }
 };
