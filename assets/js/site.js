@@ -32,17 +32,23 @@
     root.setAttribute('data-theme', t);
     // لون شريط المتصفح على الموبايل يمشي مع الوضع
     var meta = $('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', t === 'dark' ? '#15110D' : '#F5F2EA');
+    if (meta) meta.setAttribute('content', t === 'dark' ? '#060D1A' : '#F3F5F8');
   }
 
   applyTheme(currentTheme());
 
   var themeBtn = $('#themeBtn');
   if (themeBtn) {
-    themeBtn.addEventListener('click', function () {
+    themeBtn.addEventListener('click', function (ev) {
       var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
       try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!document.startViewTransition || reduce) { applyTheme(next); return; }
+      root.style.setProperty('--vt-x', ev.clientX + 'px');
+      root.style.setProperty('--vt-y', ev.clientY + 'px');
+      root.classList.add('theme-vt');
+      var done = function () { root.classList.remove('theme-vt'); };
+      document.startViewTransition(function () { applyTheme(next); }).finished.then(done, done);
     });
   }
 
@@ -208,4 +214,102 @@
       history.replaceState(null, '', id);
     });
   });
+
+  /* ======================================================================
+     الإضافات الجديدة
+     ====================================================================== */
+
+  /* ---------- عدّاد متحرك لأرقام شريط الثقة ---------- */
+  var counters = $$('[data-count]');
+  function runCounter(el) {
+    var target = parseFloat(el.getAttribute('data-count')) || 0;
+    var suffix = el.getAttribute('data-suffix') || '';
+    var start = performance.now(), dur = 1200;
+    (function step(now) {
+      var k = Math.min(1, (now - start) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e) + suffix;
+      if (k < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  if ('IntersectionObserver' in window && counters.length) {
+    var cio = new IntersectionObserver(function (es) {
+      es.forEach(function (en) { if (en.isIntersecting) { runCounter(en.target); cio.unobserve(en.target); } });
+    }, { threshold: 0.6 });
+    counters.forEach(function (c) { cio.observe(c); });
+  }
+
+  /* ---------- إضاءة بتتبع الماوس على الكروت ---------- */
+  if (window.matchMedia && matchMedia('(hover:hover)').matches) {
+    $$('.card, .contact-card, .step, .hero-card').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  }
+
+  /* ---------- تمييز القسم الحالي في القائمة ---------- */
+  var navLinks = $$('.nav-links a');
+  if ('IntersectionObserver' in window && navLinks.length) {
+    var spy = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id); });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    navLinks.forEach(function (a) { var t = $(a.getAttribute('href')); if (t) spy.observe(t); });
+  }
+
+  /* ---------- زرار الرجوع لفوق ---------- */
+  var toTop = $('#toTop');
+  if (toTop) {
+    var onTop = function () { toTop.classList.toggle('show', window.scrollY > 900); };
+    window.addEventListener('scroll', onTop, { passive: true });
+    onTop();
+    toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  }
+
+  /* ---------- شريط التقدم (للمتصفحات اللي مش بتدعم scroll-timeline) ---------- */
+  var bar = $('.progress');
+  if (bar && !(window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()'))) {
+    var onProg = function () {
+      var h = document.documentElement.scrollHeight - innerHeight;
+      bar.style.transform = 'scaleX(' + (h > 0 ? window.scrollY / h : 0) + ')';
+    };
+    window.addEventListener('scroll', onProg, { passive: true });
+    onProg();
+  }
+
+  /* ---------- مُنشئ طلب واتساب ----------
+     مفيش أي بيانات بتتبعت لسيرفر — بنبني رسالة ونفتح واتساب بيها.
+     كل النصوص بتتعمل لها encodeURIComponent عشان محدش يقدر يحقن رابط. */
+  var form = $('#orderForm');
+  if (form) {
+    var prod = $('#oProduct'), unit = $('#oUnit'), qtyEl = $('#oQty');
+    var syncUnit = function () {
+      unit.querySelector('[value="bag"]').disabled = prod.value === 'steel';
+      if (prod.value === 'steel') unit.value = 'ton';
+    };
+    prod.addEventListener('change', syncUnit);
+    syncUnit();
+    var clean = function (v) { return String(v || '').replace(/\s+/g, ' ').trim().slice(0, 80); };
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var d = T[root.getAttribute('lang')] || T.ar;
+      var qty = parseFloat(qtyEl.value);
+      if (!(qty > 0)) { qtyEl.setCustomValidity(d['order.err']); qtyEl.reportValidity(); qtyEl.focus(); return; }
+      qtyEl.setCustomValidity('');
+      var lines = [
+        d['order.msgHi'],
+        '• ' + d['order.msgP'] + ': ' + d[prod.value === 'steel' ? 'order.steel' : 'order.cement'],
+        '• ' + d['order.msgQ'] + ': ' + qty + ' ' + d[unit.value === 'bag' ? 'order.bag' : 'order.ton']
+      ];
+      var size = clean($('#oSize').value), place = clean($('#oPlace').value);
+      if (size) lines.push('• ' + d['order.msgS'] + ': ' + size);
+      if (place) lines.push('• ' + d['order.msgL'] + ': ' + place);
+      window.open('https://wa.me/201006859418?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+    });
+    qtyEl.addEventListener('input', function () { qtyEl.setCustomValidity(''); });
+  }
 })();
