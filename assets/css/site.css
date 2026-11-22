@@ -175,7 +175,9 @@ h1,h2,h3,h4{font-family:var(--display);color:var(--ink);line-height:1.2;font-wei
 .site-header.stuck > .wrap{border-color:var(--line);box-shadow:0 14px 40px -22px rgba(34,29,22,.45);max-width:calc(var(--content) - 40px);}
 .nav{display:flex;align-items:center;gap:var(--sp-4);min-height:68px;}
 .brand{display:flex;align-items:center;gap:var(--sp-3);flex-shrink:0;min-height:44px;}
-.brand img{height:42px;width:auto;border-radius:8px;}
+.brand img{height:44px;width:44px;filter:drop-shadow(0 8px 14px rgba(176,101,58,.35));transition:transform .6s var(--spring);}
+@media(hover:hover){.brand:hover img{transform:rotate(-10deg) scale(1.06);}}
+.foot-brand .brand-text b{color:var(--on-dark-title);} .foot-brand .brand-text span{color:var(--on-dark-faint);}
 .brand-text{display:flex;flex-direction:column;line-height:1.25;}
 .brand-text b{font-family:var(--display);font-size:1rem;font-weight:900;color:var(--ink);}
 .brand-text span{font-size:.68rem;color:var(--ink-4);letter-spacing:.08em;}
@@ -397,7 +399,13 @@ h1,h2,h3,h4{font-family:var(--display);color:var(--ink);line-height:1.2;font-wei
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .about-logo > *{position:relative;}
-.about-logo img{margin-inline:auto;border-radius:var(--r-sm);max-width:340px;width:100%;}
+.about-logo{background:radial-gradient(80% 70% at 50% 0%,rgba(208,129,79,.25),transparent 70%),linear-gradient(160deg,#2A2018,#110D0A);border-color:rgba(231,167,123,.2);}
+.about-mark{margin-inline:auto;width:min(200px,55%);height:auto;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45));}
+.about-word{margin-top:var(--sp-5);}
+.about-word b{display:block;font-family:var(--display);font-size:clamp(2.4rem,6vw,3.4rem);font-weight:900;line-height:1.05;color:#F5F2EA;}
+.about-word span{display:block;font-family:var(--display);font-size:1rem;font-weight:800;color:#C9B9A2;margin-top:6px;}
+.about-word i{display:block;font-style:normal;font-family:'Inter',system-ui,sans-serif;font-size:.78rem;letter-spacing:.5em;color:#E7A77B;font-weight:800;margin-top:10px;}
+
 .about-logo .est{margin-top:var(--sp-5);padding-top:var(--sp-5);border-top:1px solid var(--line);font-family:var(--display);font-size:.8rem;font-weight:800;letter-spacing:.2em;color:var(--ink-4);}
 .quote{border-inline-start:3px solid var(--copper);padding-inline-start:var(--sp-5);margin-block:var(--sp-5);font-family:var(--display);font-size:clamp(1.08rem,2vw,1.3rem);font-weight:800;color:var(--ink);line-height:1.7;}
 
@@ -465,7 +473,7 @@ h1,h2,h3,h4{font-family:var(--display);color:var(--ink);line-height:1.2;font-wei
 /* ---------- 15. الفوتر ---------- */
 .site-footer{background:var(--surface-dark);color:var(--on-dark-mute);border-top:1px solid var(--surface-dark-2);padding-block:var(--sp-7) calc(var(--sp-6) + var(--safe-b));}
 .footer-top{display:flex;flex-wrap:wrap;gap:var(--sp-5);align-items:center;justify-content:space-between;padding-bottom:var(--sp-6);margin-bottom:var(--sp-5);border-bottom:1px solid var(--line-dark);}
-.footer-top img{height:54px;width:auto;border-radius:8px;}
+.footer-top img{height:48px;width:48px;}
 .footer-links{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
 .footer-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 var(--sp-3);font-size:.92rem;font-weight:700;color:var(--on-dark-text);border-radius:var(--r-sm);transition:color .2s,background .2s;}
 @media(hover:hover){.footer-links a:hover{color:var(--on-dark-title);background:var(--on-dark-soft-2);}}
@@ -481,7 +489,7 @@ html.js .reveal[data-d="3"]{transition-delay:.3s}
 
 /* الصورة في "مين إحنا" بتكبر شوية مع التمرير (Scroll-driven) */
 @supports (animation-timeline: view()){
-  .about-logo img{animation:zoom-in linear both;animation-timeline:view();animation-range:entry 0% cover 45%;}
+  .about-mark{animation:zoom-in linear both;animation-timeline:view();animation-range:entry 0% cover 45%;}
   @keyframes zoom-in{from{transform:scale(.85) rotate(-3deg);opacity:.4}to{transform:none;opacity:1}}
   .hero-rebar{animation:parallax linear both;animation-timeline:scroll(root);animation-range:0 100vh;}
   @keyframes parallax{to{transform:translateY(120px)}}
